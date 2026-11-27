@@ -16,3 +16,10 @@ class Recipe(BaseModel):
 
 class RecipeChoices(BaseModel):
     recipes: list[Recipe] = Field(..., description="List of recipe choices")
+
+class Product(BaseModel):
+    name: str = Field(..., description="The name of the product")
+    brand: str | None = Field(None, description="The brand of the product")
+    size: str = Field(..., description="The size of the product")
+    price: float | None = Field(None, description="The price of the product")
+    upc: str = Field(..., description="The UPC code of the product")

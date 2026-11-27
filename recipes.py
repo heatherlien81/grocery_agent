@@ -2,7 +2,7 @@
 # call LLM to generate recipes and ingredients in a structured format
 """
 from dotenv import load_dotenv
-from model import Ingredient, Recipe, RecipeChoices
+from model import Ingredient, Recipe, RecipeChoices, Product
 from google import genai
 from google.genai import types
 
@@ -63,3 +63,4 @@ def pick_recipe(recipe_choices: RecipeChoices) -> Recipe:
                 print(f"Please enter a number between 1 and {len(recipe_choices.recipes)}.")
         except ValueError:
             print("Invalid input. Please enter a valid number.")
+

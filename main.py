@@ -1,6 +1,7 @@
 from dotenv import load_dotenv
-from kroger import get_access_token, find_store, search_products
+from kroger import get_access_token, find_store, search_products, find_cheapest
 from recipes import get_recipes, show_choices, pick_recipe
+import os
 
 def main():
     """
@@ -15,9 +16,19 @@ def main():
     recipe = pick_recipe(recipe_choices)
 
     # 2. Find a nearby Kroger store
-    # zip_code = input("Enter your zip code: ")
-    # token = get_access_token()
-    # location_id = find_store(token, zip_code)
+    zip_code = os.getenv("ZIP_CODE", "45202")
+    token = get_access_token()
+    store_id = find_store(token, zip_code)
+
+    for ingredient in recipe.ingredients:
+        # 3. Search for products at the Kroger store
+        products = search_products(token, ingredient.name, store_id)
+        cheapest_product = find_cheapest(products)
+        if cheapest_product:
+            print(f"\nThe cheapest product for {ingredient.name} is: {cheapest_product.name} at ${cheapest_product.price}")
+        else:
+            print(f"\nNo product found for {ingredient.name}")
+
 
 if __name__ == "__main__":
     main()
